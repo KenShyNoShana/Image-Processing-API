@@ -10,7 +10,8 @@
 	"rules": {
 		"prettier/prettier": 2, // Means error,
 		"no-console": 1,
-		"no-var": 2
+		"no-var": 2,
+		"endOfLine": 0
 	},
 	"parserOptions": {
 		"ecmaVersion": "latest",
