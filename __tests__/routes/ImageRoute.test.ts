@@ -8,7 +8,7 @@ describe("ImageRoute", () => {
 		const testCall = await request(router).get("/resizeImage?imageName=cute-Panda&width=200&height=200");
 		const dir = path.join(__dirname, "../../pictures/resized");
 		const files = fs.readdirSync(dir);
-		expect(files.length).toBeGreaterThan(0);
+		expect(files.length).toBeGreaterThan(1);
 		expect(testCall.status).toEqual(200);
 	});
 
