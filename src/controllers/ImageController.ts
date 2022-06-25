@@ -17,7 +17,7 @@ export class ImgController {
 			);
 		}
 
-		fs.readFile(`./pictures/original/${imageName}.jpg`, (error, data): object | undefined => {
+		fs.readFile(`./pictures/original/${imageName}.jpg`, (error, data): object | undefined | void => {
 			if (error) {
 				res.status(404);
 				return res.send(
@@ -30,12 +30,25 @@ export class ImgController {
 				return res.send("Your width or height value is not a number");
 			}
 
+			if (parseInt(width) <= 0 || parseInt(height) <= 0) {
+				res.status(404);
+				return res.send("width and height values need to be positive integers");
+			}
+
+			const imageFiles = fs.readdirSync(path.join(__dirname, `../../pictures/resized`));
+			if (imageFiles.includes(`${imageName}-resized-${width}x${height}.jpg`) === true) {
+				res.status(200);
+				return res.sendFile(`./pictures/resized/${imageName}-resized-${width}x${height}.jpg`, {
+					root: path.join(__dirname, "../.."),
+				});
+			}
+
 			sharp(data)
 				.resize(parseInt(width), parseInt(height))
 				.toFormat("jpg")
 				// using .toFile instead of .toBuffer and filesystem makes the code cleaner and easier to understand
 				.toFile(
-					`${path.join(__dirname, `../../pictures/resized/${imageName}-resized.jpg`)}`,
+					`${path.join(__dirname, `../../pictures/resized/${imageName}-resized-${width}x${height}.jpg`)}`,
 					(error: object): void => {
 						if (error) {
 							res.status(500);
@@ -43,7 +56,7 @@ export class ImgController {
 						}
 
 						res.status(200);
-						return res.sendFile(`./pictures/resized/${imageName}-resized.jpg`, {
+						return res.sendFile(`./pictures/resized/${imageName}-resized-${width}x${height}.jpg`, {
 							root: path.join(__dirname, "../.."),
 						});
 					},
