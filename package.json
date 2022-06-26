@@ -52,6 +52,7 @@
 		"mock-req-res": "^1.2.0",
 		"nodemon": "^2.0.16",
 		"prettier": "^2.6.2",
+		"sinon": "^14.0.0",
 		"supertest": "^6.2.3",
 		"ts-jest": "^28.0.4",
 		"ts-node": "^10.8.0",
